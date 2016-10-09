@@ -12,9 +12,6 @@ functions:
   esi:
     handler: handler.esi
     events:
-      - http:
-          method: GET
-          path: pages/{path+}
       - schedule:
           rate: cron(0 1 * * ? *)
           enabled: true
