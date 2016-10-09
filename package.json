@@ -1,0 +1,18 @@
+{
+  "name": "serverless-event-constant-inputs",
+  "version": "0.0.1",
+  "description": "Input fields can be added to scheduled events.",
+  "main": "handler.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dittto/serverless-event-constant-inputs.git"
+  },
+  "keywords": [
+    "serverless",
+    "event",
+    "constant",
+    "input"
+  ],
+  "author": "Nick Stacey @ditt_to",
+  "license": "ISC"
+}
