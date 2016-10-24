@@ -2,24 +2,13 @@
 
 class EventConstantInputs {
     constructor(serverless, options) {
+        // drop out if no functions are set
+        if (!serverless || !serverless.service || !serverless.service.functions) {
+            return;
+        }
 
         // read inputs from function events
-        let inputs = [];
-        for (let functionName of Object.keys(serverless.service.functions)) {
-            let eventId = 0;
-            for (let event of serverless.service.functions[functionName].events) {
-                if (event.schedule) {
-                    eventId ++;
-                    if (event.schedule.input) {
-                        inputs[inputs.length] = {
-                            name: functionName,
-                            eventId: eventId,
-                            field: typeof event.schedule.input === 'string' ? event.schedule.input : JSON.stringify(event.schedule.input)
-                        };
-                    }
-                }
-            }
-        }
+        const inputs = this.getInputsFromConfig(serverless.service.functions);
 
         // make sure resources exist
         if (!serverless.service.resources) {
@@ -44,6 +33,27 @@ class EventConstantInputs {
         }
 
         this.serverless = serverless;
+    }
+
+    getInputsFromConfig(functions) {
+        let inputs = [];
+        for (let functionName of Object.keys(functions)) {
+            let eventId = 0;
+            for (let event of functions[functionName].events) {
+                if (event.schedule) {
+                    eventId ++;
+                    if (event.schedule.input) {
+                        inputs[inputs.length] = {
+                            name: functionName,
+                            eventId: eventId,
+                            field: typeof event.schedule.input === 'string' ? event.schedule.input : JSON.stringify(event.schedule.input)
+                        };
+                    }
+                }
+            }
+        }
+
+        return inputs;
     }
 }
 
